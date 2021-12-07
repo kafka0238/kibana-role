@@ -1,0 +1,14 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: kibana
+  gather_facts: false
+  tasks:
+  - name: Request to kibana
+    command:
+      cmd: curl http://localhost:5601
+    register: response
+  - name: Status verify
+    assert:
+      that: response.status == 200

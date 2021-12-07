@@ -1,0 +1,25 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: elastic_ubuntu
+    image: docker.io/pycontribs/ubuntu:latest
+    pre_build_image: true
+    groups:
+      - elasticsearch
+  - name: kibana_centos7
+    image: docker.io/pycontribs/centos:7
+    pre_build_image: true
+    groups:
+      - kibana
+  - name: kibana_ubuntu
+    image: docker.io/pycontribs/ubuntu:latest
+    pre_build_image: true
+    groups:
+      - kibana
+provisioner:
+  name: ansible
+verifier:
+  name: ansible
