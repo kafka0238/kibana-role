@@ -10,5 +10,5 @@
       cmd: curl http://localhost:5601
     register: response
   - name: Status verify
-    assert:
-      that: response.status == 200
+    debug:
+      var: response

@@ -5,9 +5,27 @@
     - name: "Include elastic-role"
       include_role:
         name: "elastic"
+    - name: "Elastic service start"
+      become: true
+      service:
+        name: elasticsearch
+        state: started
+      changed_when: false
 - name: Converge
   hosts: kibana
   tasks:
     - name: "Include kibana-role"
       include_role:
         name: "kibana"
+    - name: "Curl install for debian"
+      become: true
+      apt:
+        name: curl
+        update_cache: yes
+        state: present
+      when: ansible_facts.pkg_mgr == 'apt'
+    - name: "Kibana service start"
+      become: true
+      service:
+        name: kibana
+        state: started
