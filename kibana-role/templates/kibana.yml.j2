@@ -1,7 +1,7 @@
 server.host: "0.0.0.0"
 elasticsearch.hosts: [
 {% for host in groups['elasticsearch'] %}
-        "http://{{ hostvars[host]['ansible_facts']['default_ipv4']['address'] | default('0.0.0.0') }}:9200",
+        "http://{{ hostvars[host]['ansible_facts']['default_ipv4']['address'] | default(default_elastic_host) }}:9200",
 {% endfor %}
     ]
 kibana.index: ".kibana"

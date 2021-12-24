@@ -7,8 +7,11 @@
   tasks:
   - name: Request to kibana
     command:
-      cmd: curl http://localhost:5601
-    register: response
-  - name: Status verify
-    debug:
-      var: response
+      cmd: curl http://localhost:5601/api/status
+    register: result
+  - name: Set a variable
+    ansible.builtin.set_fact:
+      response: "{{ result.stdout | from_json }}"
+  - name: Version verify
+    assert:
+      that: response.version.number == "7.14.0"
