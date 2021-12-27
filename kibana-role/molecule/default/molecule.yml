@@ -7,18 +7,24 @@ platforms:
   - name: elastic_ubuntu
     image: docker.io/pycontribs/ubuntu:latest
     pre_build_image: true
+    privileged: True
     groups:
       - elasticsearch
     networks:
       - name: elk
-#  - name: kibana_centos7
-#    image: docker.io/pycontribs/centos:7
-#    pre_build_image: true
-#    groups:
-#      - kibana
+  - name: kibana_centos7
+    image: docker.io/pycontribs/centos:7
+    pre_build_image: true
+    command: /sbin/init
+    privileged: True
+    networks:
+      - name: elk
+    groups:
+      - kibana
   - name: kibana_ubuntu
     image: docker.io/pycontribs/ubuntu:latest
     pre_build_image: true
+    privileged: True
     networks:
       - name: elk
     groups:
@@ -36,4 +42,4 @@ verifier:
 #    - destroy
 #    - create
 #    - converge
-#    - verify
+##    - verify

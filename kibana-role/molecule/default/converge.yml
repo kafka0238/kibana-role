@@ -5,12 +5,18 @@
     - name: "Include elastic-role"
       include_role:
         name: "elastic"
-    - name: "Elastic service start"
+    - name: "Elastic service start ubuntu"
       become: true
       service:
         name: elasticsearch
         state: started
-      changed_when: false
+      when: ansible_facts.pkg_mgr == 'apt'
+    - name: "Elastic service start centos"
+      become: true
+      systemd:
+        name: elasticsearch
+        state: started
+      when: ansible_facts.pkg_mgr == 'yum'
 - name: Converge
   hosts: kibana
   tasks:
@@ -24,8 +30,22 @@
         update_cache: yes
         state: present
       when: ansible_facts.pkg_mgr == 'apt'
-    - name: "Kibana service start"
+    - name: "Curl install for centos"
+      become: true
+      yum:
+        name: curl
+        update_cache: yes
+        state: present
+      when: ansible_facts.pkg_mgr == 'yum'
+    - name: "Kibana service start ubuntu"
       become: true
       service:
         name: kibana
         state: started
+      when: ansible_facts.pkg_mgr == 'apt'
+    - name: "Kibana service start centos"
+      become: true
+      systemd:
+        name: kibana
+        state: started
+      when: ansible_facts.pkg_mgr == 'yum'
