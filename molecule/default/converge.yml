@@ -22,7 +22,7 @@
   tasks:
     - name: "Include kibana-role"
       include_role:
-        name: "kibana"
+        name: "kibana-role"
     - name: "Curl install for debian"
       become: true
       apt:
